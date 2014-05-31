@@ -83,6 +83,6 @@ After 2-3 iterations the pixel intensities converge and we end up with something
 
 ## Possible Improvements
 ### Speed
-This approach is very slow compared to other approaches that real baking solutions (like [Maya](http://www.autodesk.com/products/autodesk-maya/overview) or [Blender](http://www.blender.org/) use, because we have to download the rendered texture to the CPU and send the result back to the GPU. Maybe a solution purely written with [openCL](https://www.khronos.org/opencl/)/[CUDA](http://www.nvidia.com/object/cuda_home_new.html) could compete with the normal solution of [path tracing](http://en.wikipedia.org/wiki/Path_tracing).
+This approach is very slow compared to other approaches that real baking solutions (like [Maya](http://www.autodesk.com/products/autodesk-maya/overview) or [Blender](http://www.blender.org/)) use, because we have to download the rendered texture to the CPU and send the result back to the GPU. Maybe a solution purely written with [openCL](https://www.khronos.org/opencl/)/[CUDA](http://www.nvidia.com/object/cuda_home_new.html) could compete with the normal solution of [path tracing](http://en.wikipedia.org/wiki/Path_tracing).
 ### Quality
 You may have noticed that the triangles are [flat shaded](http://en.wikipedia.org/wiki/Shading#Flat_vs._smooth_shading). This happens because I don't interpolate the normals in the texture atlas at the moment. I was stuck implementing the interpolation, because it turned out more difficult than I excpected (I may write another post about this particular problem).
