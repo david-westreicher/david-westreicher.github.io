@@ -61,8 +61,8 @@ My implementation is seperated into [two](https://github.com/david-westreicher/f
 2. The ```GIUtil``` creates an empty texture atlas ```lookup[TEXTURE_SIZE][TEXTURE_SIZE][9]``` and for every triangle of every ```Bakeable``` it:
 	1. computes the normal of the triangle
 	2. computes the uv coordinates of the triangle (```MathHelper.getProjectedTriangle()```)
-	3. finds a free space in the texture atlas  where the uvs could fit  
-		<iframe class="vine-embed" style="margin:0px auto;display:block;" src="https://vine.co/v/M5OUrHEVbIL/embed/simple" width="320" height="320" frameborder="0"></iframe><script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>
+	3. finds a free space in the texture atlas  where the uvs could fit
+		{% include video.html src="static/2014-05-26-globalillumination/uv.mp4" %}
 	4. rasterizes the normals, interpolated position and color into the texture atlas  
 {% include imagecaption.html url="/static/2014-05-26-globalillumination/texture_atlas.png" description="The resulting texture atlas (color,position,normal maps)" imagesize="80" %} 
 3. A black texture (except emmisive objects, in this case the red wall) and the vertices are sent to the GPU: ```uploadTexture()```, ```sendToGPU()``` 
@@ -78,8 +78,8 @@ After 2-3 iterations the pixel intensities converge and we end up with something
 {% include imagecaption.html url="/static/2014-05-26-globalillumination/result1.png" description="" imagesize="80" %}
 {% include imagecaption.html url="/static/2014-05-26-globalillumination/result2.png" description="" imagesize="80" %}
 {% include imagecaption.html url="/static/2014-05-26-globalillumination/result3.png" description="" imagesize="80" %}
-<iframe class="vine-embed" src="https://vine.co/v/M5F5xjzBrDF/embed/simple" width="480" height="480" frameborder="0"></iframe><script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>
-<iframe class="vine-embed" src="https://vine.co/v/MJBFwM6w6jO/embed/simple" width="480" height="480" frameborder="0"></iframe><script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>
+{% include video.html src="static/2014-05-26-globalillumination/radiosity1.mp4" %}
+{% include video.html src="static/2014-05-26-globalillumination/radiosity2.mp4" %}
 
 ## Possible Improvements
 ### Speed
