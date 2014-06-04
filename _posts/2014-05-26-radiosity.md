@@ -8,14 +8,14 @@ In my second post I want to talk about a small project i implemented in my [fung
 Modern computer games achieve a high level of realism.
 One of the most important part of this realism is the lighting.
 In this example we see a textureless scene with 2 different lighting techniques:
-{% include imagecaption.html url="/static/2014-05-26-globalillumination/Radiosity_Comparison.jpg" description="Image taken from [here](http://en.wikipedia.org/wiki/Radiosity_(computer_graphics))" %}
+{% include imagecaption.html url="/static/radiosity/Radiosity_Comparison.jpg" description="Image taken from [here](http://en.wikipedia.org/wiki/Radiosity_(computer_graphics))" %}
 
 ## Global Illumination (GI)
 Normally a scene is rendered with [rasterization](http://en.wikipedia.org/wiki/Rasterisation) by projecting vertices onto an image plane.
 With rasterizing you could render the image to the left by using shadow mapping (an approximation to real shadowing).
 GI on the other hand tries to achieve the image to the right by taking a more physically plausible approach:
 In nature a light source emits photons, which travel with the speed of light (in a vacuum) until they hit a surface:
-{% include imagecaption.html url="/static/2014-05-26-globalillumination/diffuse_specular.png" description="Image taken from [Background: Physics and Math of Shading](http://blog.selfshadow.com/publications/s2013-shading-course/)" %}
+{% include imagecaption.html url="/static/radiosity/diffuse_specular.png" description="Image taken from [Background: Physics and Math of Shading](http://blog.selfshadow.com/publications/s2013-shading-course/)" %}
 By hitting a surface the energy of the photon is split into several parts:
 
 * Diffuse: Think of the color of the material (some frequencies/colors of the light get absorbed by the surface). This part is view-invariant. 
@@ -57,29 +57,29 @@ The basic idea is that you render the scene from every [texel](http://en.wikiped
 My implementation is seperated into [two](https://github.com/david-westreicher/fungine/blob/master/src%2Frendering%2FGiRenderer.java) [files](https://github.com/david-westreicher/fungine/blob/master/src%2Futil%2FGIUtil.java).
 
 1. We first hand the ```GIUtil``` class a list of ```Bakeable``` objects (which is described by an array of triangles and a color).
-{% include imagecaption.html url="/static/2014-05-26-globalillumination/triangles.png" description="The scene we want to render" imagesize="80" %} 
+{% include imagecaption.html url="/static/radiosity/triangles.png" description="The scene we want to render" imagesize="80" %} 
 2. The ```GIUtil``` creates an empty texture atlas ```lookup[TEXTURE_SIZE][TEXTURE_SIZE][9]``` and for every triangle of every ```Bakeable``` it:
 	1. computes the normal of the triangle
 	2. computes the uv coordinates of the triangle (```MathHelper.getProjectedTriangle()```)
 	3. finds a free space in the texture atlas  where the uvs could fit
-		{% include video.html src="static/2014-05-26-globalillumination/uv.mp4" %}
+		{% include video.html src="static/radiosity/uv.mp4" %}
 	4. rasterizes the normals, interpolated position and color into the texture atlas  
-{% include imagecaption.html url="/static/2014-05-26-globalillumination/texture_atlas.png" description="The resulting texture atlas (color,position,normal maps)" imagesize="80" %} 
+{% include imagecaption.html url="/static/radiosity/texture_atlas.png" description="The resulting texture atlas (color,position,normal maps)" imagesize="80" %} 
 3. A black texture (except emmisive objects, in this case the red wall) and the vertices are sent to the GPU: ```uploadTexture()```, ```sendToGPU()``` 
 4. In the CPU we now visit every pixel in the texture atlas (except emmisive and empty pixels) and put the camera in the corresponding position/direction: ```renderFromLookup()```
 	1. The scene is rendered into a framebuffer and the result is downloaded to the CPU: ```copyTextureToCPU()```
-	{% include imagecaption.html url="/static/2014-05-26-globalillumination/cubemaps.png" description="Some renderings from the corresponding texels" imagesize="20" %} 
+	{% include imagecaption.html url="/static/radiosity/cubemaps.png" description="Some renderings from the corresponding texels" imagesize="20" %} 
 	2. We compute the average of the pixel intensities and compute the new radiosity term with ```giUtil.radiosity()```
 	3. Finally we update the texture in the GPU with the result
 
 
 ## Results
 After 2-3 iterations the pixel intensities converge and we end up with something like this
-{% include imagecaption.html url="/static/2014-05-26-globalillumination/result1.png" description="" imagesize="80" %}
-{% include imagecaption.html url="/static/2014-05-26-globalillumination/result2.png" description="" imagesize="80" %}
-{% include imagecaption.html url="/static/2014-05-26-globalillumination/result3.png" description="" imagesize="80" %}
-{% include video.html src="static/2014-05-26-globalillumination/radiosity1.mp4" %}
-{% include video.html src="static/2014-05-26-globalillumination/radiosity2.mp4" %}
+{% include imagecaption.html url="/static/radiosity/result1.png" description="" imagesize="80" %}
+{% include imagecaption.html url="/static/radiosity/result2.png" description="" imagesize="80" %}
+{% include imagecaption.html url="/static/radiosity/result3.png" description="" imagesize="80" %}
+{% include video.html src="static/radiosity/radiosity1.mp4" %}
+{% include video.html src="static/radiosity/radiosity2.mp4" %}
 
 ## Possible Improvements
 ### Speed
