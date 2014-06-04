@@ -62,7 +62,7 @@ My implementation is seperated into [two](https://github.com/david-westreicher/f
 	1. computes the normal of the triangle
 	2. computes the uv coordinates of the triangle (```MathHelper.getProjectedTriangle()```)
 	3. finds a free space in the texture atlas  where the uvs could fit
-		{% include video.html src="static/radiosity/uv.mp4" %}
+		{% include video.html src="/static/radiosity/uv.mp4" %}
 	4. rasterizes the normals, interpolated position and color into the texture atlas  
 {% include imagecaption.html url="/static/radiosity/texture_atlas.png" description="The resulting texture atlas (color,position,normal maps)" imagesize="80" %} 
 3. A black texture (except emmisive objects, in this case the red wall) and the vertices are sent to the GPU: ```uploadTexture()```, ```sendToGPU()``` 
@@ -78,11 +78,11 @@ After 2-3 iterations the pixel intensities converge and we end up with something
 {% include imagecaption.html url="/static/radiosity/result1.png" description="" imagesize="80" %}
 {% include imagecaption.html url="/static/radiosity/result2.png" description="" imagesize="80" %}
 {% include imagecaption.html url="/static/radiosity/result3.png" description="" imagesize="80" %}
-{% include video.html src="static/radiosity/radiosity1.mp4" %}
-{% include video.html src="static/radiosity/radiosity2.mp4" %}
+{% include video.html src="/static/radiosity/radiosity1.mp4" %}
+{% include video.html src="/static/radiosity/radiosity2.mp4" %}
 
 ## Possible Improvements
 ### Speed
-This approach is very slow compared to other approaches that real baking solutions (like [Maya](http://www.autodesk.com/products/autodesk-maya/overview) or [Blender](http://www.blender.org/) use, because we have to download the rendered texture to the CPU and send the result back to the GPU. Maybe a solution purely written with [openCL](https://www.khronos.org/opencl/)/[CUDA](http://www.nvidia.com/object/cuda_home_new.html) could compete with the normal solution of [path tracing](http://en.wikipedia.org/wiki/Path_tracing).
+This approach is very slow compared to other approaches that real baking solutions (like [Maya](http://www.autodesk.com/products/autodesk-maya/overview) or [Blender](http://www.blender.org/)) use, because we have to download the rendered texture to the CPU and send the result back to the GPU. Maybe a solution purely written with [openCL](https://www.khronos.org/opencl/)/[CUDA](http://www.nvidia.com/object/cuda_home_new.html) could compete with the normal solution of [path tracing](http://en.wikipedia.org/wiki/Path_tracing).
 ### Quality
 You may have noticed that the triangles are [flat shaded](http://en.wikipedia.org/wiki/Shading#Flat_vs._smooth_shading). This happens because I don't interpolate the normals in the texture atlas at the moment. I was stuck implementing the interpolation, because it turned out more difficult than I excpected (I may write another post about this particular problem).
