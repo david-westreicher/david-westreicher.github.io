@@ -10,7 +10,7 @@ permalink:        pretty
 # Setup
 title:            davidw
 tagline:          'A personal page'
-description:      "<a href=\"https://twitter.com/daviddefdef\">@daviddefdef</a><br><a href=\"https://github.com/david-westreicher\">i'm also on github</a>"
+description:      "<a href=\"https://twitter.com/daviddefdef\">twitter</a>/<a href=\"https://github.com/david-westreicher\">github</a>"
 url:              http://david-westreicher.github.io/
 
 author:

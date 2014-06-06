@@ -1,0 +1,11 @@
+.leftfloatimg{
+	float:none;
+	padding:1rem;
+	margin: 0px auto;
+	display: block;
+}
+@media (min-width: 58rem) {
+	.leftfloatimg{
+		float:left;
+	}
+}
