@@ -3,7 +3,7 @@ layout: page
 title: Projects
 ---
 
-| Name   |      description       | posts |
+| name   |      description       | posts |
 |----------|-------------|-----|
 | [alcasat](https://github.com/david-westreicher/alcazar) | A solver for the pen and paper puzzle [alcazar](http://www.theincrediblecompany.com/alcazar-1/) coded in python and using SAT-techniques  |  |
 | [battlecode](http://www.battlecode.org)| A programming competition organized by the [MIT](http://mit.edu)| [2014](../2014/06/01/battlecode2014/)|

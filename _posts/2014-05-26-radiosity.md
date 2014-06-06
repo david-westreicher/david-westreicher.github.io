@@ -56,22 +56,23 @@ The basic idea is that you render the scene from every [texel](http://en.wikiped
 ## Implementation
 My implementation is seperated into [two](https://github.com/david-westreicher/fungine/blob/master/src%2Frendering%2FGiRenderer.java) [files](https://github.com/david-westreicher/fungine/blob/master/src%2Futil%2FGIUtil.java).
 
-1. We first hand the ```GIUtil``` class a list of ```Bakeable``` objects (which is described by an array of triangles and a color).
+We first hand the ```GIUtil``` class a list of ```Bakeable``` objects (which is described by an array of triangles and a color).
 {% include imagecaption.html url="/static/radiosity/triangles.png" description="The scene we want to render" imagesize="80" %} 
-2. The ```GIUtil``` creates an empty texture atlas ```lookup[TEXTURE_SIZE][TEXTURE_SIZE][9]``` and for every triangle of every ```Bakeable``` it:
-	1. computes the normal of the triangle
-	2. computes the uv coordinates of the triangle (```MathHelper.getProjectedTriangle()```)
-	3. finds a free space in the texture atlas  where the uvs could fit
-		{% include video.html src="/static/radiosity/uv.mp4" %}
-	4. rasterizes the normals, interpolated position and color into the texture atlas  
-{% include imagecaption.html url="/static/radiosity/texture_atlas.png" description="The resulting texture atlas (color,position,normal maps)" imagesize="80" %} 
-3. A black texture (except emmisive objects, in this case the red wall) and the vertices are sent to the GPU: ```uploadTexture()```, ```sendToGPU()``` 
-4. In the CPU we now visit every pixel in the texture atlas (except emmisive and empty pixels) and put the camera in the corresponding position/direction: ```renderFromLookup()```
-	1. The scene is rendered into a framebuffer and the result is downloaded to the CPU: ```copyTextureToCPU()```
-	{% include imagecaption.html url="/static/radiosity/cubemaps.png" description="Some renderings from the corresponding texels" imagesize="20" %} 
-	2. We compute the average of the pixel intensities and compute the new radiosity term with ```giUtil.radiosity()```
-	3. Finally we update the texture in the GPU with the result
+The ```GIUtil``` creates an empty texture atlas ```lookup[TEXTURE_SIZE][TEXTURE_SIZE][9]``` and for every triangle of every ```Bakeable``` it:
 
+ 1. computes the normal of the triangle
+ 2. computes the uv coordinates of the triangle (```getProjectedTriangle()```)
+ 3. finds a free space in the texture atlas  where the uvs could fit
+  {% include video.html src="/static/radiosity/uv.mp4" %}
+ 4. rasterizes the normals, interpolated position and color into the texture atlas  
+  {% include imagecaption.html url="/static/radiosity/texture_atlas.png" description="The resulting texture atlas (color,position,normal maps)" imagesize="80" %} 
+A black texture (except emmisive objects, in this case the red wall) and the vertices are sent to the GPU: ```uploadTexture()```, ```sendToGPU()```  
+In the CPU we now visit every pixel in the texture atlas (except emmisive and empty pixels) and put the camera in the corresponding position/direction: ```renderFromLookup()```
+
+ 1. The scene is rendered into a framebuffer and the result is downloaded to the CPU: ```copyTextureToCPU()```
+  {% include imagecaption.html url="/static/radiosity/cubemaps.png" description="Some renderings from the corresponding texels" imagesize="20" %} 
+ 2. We compute the average of the pixel intensities and compute the new radiosity term with ```giUtil.radiosity()```
+ 3. Finally we update the texture in the GPU with the result
 
 ## Results
 After 2-3 iterations the pixel intensities converge and we end up with something like this
