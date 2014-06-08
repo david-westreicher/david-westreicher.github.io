@@ -89,9 +89,21 @@ html {
   padding-left: 0;
   list-style: none;
 }
+.sidebar-nav li:after {
+  content: "/";
+}
+.sidebar-nav li:last-child:after {
+  content: "";
+}
 @media (min-width: 48rem) {
   .sidebar-nav {
     display: block;
+  }
+  .sidebar-nav li:after {
+    content: "";
+  }
+  .sidebar-nav li:last-child:after {
+    content: "";
   }
 }
 .sidebar-nav-item {
