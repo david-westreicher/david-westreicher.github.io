@@ -1,6 +1,7 @@
 .leftfloatimg{
 	float:none;
-	padding:1rem;
+	padding-left:1rem;
+	padding-right:1rem;
 	margin: 0px auto;
 	display: block;
 }
